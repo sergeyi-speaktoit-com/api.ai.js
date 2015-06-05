@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo 'Hello world'
+echo 'js compressing ...'
 
 java -jar resources/compiler.jar --js \
 src/resampler.js \
@@ -11,3 +11,5 @@ src/vad.js \
 src/tts.js \
 src/api.ai.js \
 --js_output_file target/api.ai.min.js
+
+echo 'done'

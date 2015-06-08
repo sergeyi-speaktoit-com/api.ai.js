@@ -91,6 +91,8 @@ apiAi.onResults = function (data) {
 };
 ```
 
+[Response object structure](http://api.ai/docs/reference/#response) described in [documentation](http://api.ai/docs/)
+
 # API properties
 
 ```javascript
@@ -98,19 +100,19 @@ apiAi.onResults = function (data) {
  * 
  * 'wss://api.api.ai:4435/api/ws/query' 
  */
-ApiAi.server
+apiAi.server
 /**
  * Client access token of your agent. 
  */
-ApiAi.token
+apiAi.token
 /**
  * Unique session identifier to build dialogue. 
  */
-ApiAi.sessionId
+apiAi.sessionId
 /**
  * How often reader should send audio-data chunk to the server.
  */
-ApiAi.readingInterval
+apiAi.readingInterval
 ```
 
 # API methods
@@ -121,37 +123,37 @@ ApiAi.readingInterval
  * Set up the recorder (incl. asking permission)
  * Can be called multiple times.
  */
-ApiAi.init();
+apiAi.init();
 /**
  * Chck if recorder is initialise.
  * @returns {boolean}
  */
-ApiAi.isInitialise();
+apiAi.isInitialise();
 /**
  * Send object as json
  * @param json - javascript map.
  */
-ApiAi.sendJson(jsObjectOrMap);
+apiAi.sendJson(jsObjectOrMap);
 /**
  * Start recording and transcribing
  */
-ApiAi.startListening();
+apiAi.startListening();
 /**
  * Stop listening, i.e. recording and sending of new input.
  */
-ApiAi.stopListening();
+apiAi.stopListening();
 /**
  * Check if websocket is open
  */
-ApiAi.isOpen();
+apiAi.isOpen();
 /**
  * Open websocket
  */
-ApiAi.open();
+apiAi.open();
 /**
  * Cancel everything without waiting on the server
  */
-ApiAi.close();
+apiAi.close();
 ```
 
 # API callbacks
@@ -160,35 +162,35 @@ ApiAi.close();
 /**
  * It's triggered after web-socket is open.
  */
-ApiAi.onOpen = function () {};
+apiAi.onOpen = function () {};
 /**
  * It's triggered after web-socket is closed. 
  */
-ApiAi.onClose = function () {};
+apiAi.onClose = function () {};
 /**
  * It's triggered after initialisation is finished.
  */
-ApiAi.onInit = function () {};
+apiAi.onInit = function () {};
 /**
  * It's triggered when listening is started. 
  */
-ApiAi.onStartListening = function () {};
+apiAi.onStartListening = function () {};
 /**
  * It's triggered when listening is stopped.
  */
-ApiAi.onStopListening = function () {};
+apiAi.onStopListening = function () {};
 /**
  *  It's triggered when result is received;
  */
-ApiAi.onResults = function (result) {};
+apiAi.onResults = function (result) {};
 /**
  * It's triggered when event is happened; 
  */
-ApiAi.onEvent = function () {};
+apiAi.onEvent = function (code, data) {};
 /**
  * It's triggered when error is happened; 
  */
-ApiAi.onError = function () {};
+apiAi.onError = function (code, data) {};
 ```
 
 

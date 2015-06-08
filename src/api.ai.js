@@ -110,6 +110,10 @@
         return !!this.recorder;
     };
 
+    /**
+     * Send object as json
+     * @param json - javascript map.
+     */
     ApiAi.prototype.sendJson = function (json) {
         this._socketSend(JSON.stringify(json));
         this._socketSend(TAG_END_OF_SENTENCE);

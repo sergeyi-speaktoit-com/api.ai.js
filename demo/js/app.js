@@ -16,7 +16,7 @@ window.onload = function () {
 function App() {
     var apiAi;
     var isListening = false;
-    var sessionId = SESSION_ID.length <= 32 ? SESSION_ID :  _generateId(32);
+    var sessionId = _generateId(32);
 
     this.start = function () {
         start.className += ' hidden';
@@ -51,8 +51,8 @@ function App() {
          * You can use configuration object to set properties and handlers.
          */
         var config = {
-            server: SERVER,
-            token: ACCESS_TOKEN,
+            server: 'wss://api.api.ai:4435/api/ws/query',
+            token: 'paste access_token here',// Use Client access token there (see agent keys).
             sessionId: sessionId,
             onInit: function () {
                 console.log("> ON INIT use config");
@@ -63,7 +63,7 @@ function App() {
         /**
          * Also you can set properties and handlers directly.
          */
-        apiAi.token = ACCESS_TOKEN;
+        apiAi.sessionId = '1234';
 
         apiAi.onInit = function () {
             console.log("> ON INIT use direct assignment property");

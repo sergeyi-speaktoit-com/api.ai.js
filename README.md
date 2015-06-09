@@ -20,7 +20,7 @@ Add [api.ai.min.js](https://github.com/sergeyi-speaktoit-com/api.ai.js/blob/mast
 <script type="text/javascript" src="js/main.js"></script>
 ```
 
-Deploy your html file and scripts by using your favorite webserver (it is important go get access to microphone). 
+To launch your web application you need deploy the html file and all scripts by using webserver. Using web-server is important because some of browsers don't allow access to microphone if your html file open from file system (URL like "file:///C:/Users/I/Projects/api.ai.js/demo/index.html").
 
 
 Create instance of ApiAi. 

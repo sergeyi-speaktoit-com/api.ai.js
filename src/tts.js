@@ -20,13 +20,14 @@
         if (!text) {
             return;
         }
+        var _this = this;
 
         text = encodeURIComponent(encodeURIComponent(text));// hack for platform's tts.
 
         var XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
         var xhr = new XHR();
 
-        xhr.open('GET', 'http://' + this.server + '/api/tts?access_token=' + this.access_token + '&lang=en-US&text=' + text, true);
+        xhr.open('GET', 'http://' + _this.server + '/api/tts?access_token=' + _this.access_token + '&lang=en-US&text=' + text, true);
         xhr.responseType = 'arraybuffer';
 
         xhr.onload = function (response) {
@@ -41,7 +42,7 @@
         xhr.send();
 
         function speek(data, onended) {
-            var audio_context = this.audio_context;
+            var audio_context = _this.audio_context;
 
             audio_context.decodeAudioData(data, playSound, handleError);
 

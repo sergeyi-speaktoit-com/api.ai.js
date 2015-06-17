@@ -2,10 +2,20 @@
  * Demo application
  */
 
-var app, text, response, start, stop;
+var app, text, dialogue, response, start, stop;
+var SERVER_DOMAIN, ACCESS_TOKEN;
+
+
+SERVER_DOMAIN = 'dev.api.ai';
+ACCESS_TOKEN = 'f234ec9f1bd747e2a3765f9e74830890';
+
+//SERVER = 'localhost:8080';
+//ACCESS_TOKEN = 'a92632e7312b4ab7afa457a0e0a7a515';
+
 
 window.onload = function () {
     text = $('text');
+    dialogue = $('dialogue');
     response = $('response');
     start = $('start');
     stop = $('stop');
@@ -14,13 +24,13 @@ window.onload = function () {
 };
 
 function App() {
-    var apiAi;
+    var apiAi, apiAiTts;
     var isListening = false;
     var sessionId = _generateId(32);
 
     this.start = function () {
         start.className += ' hidden';
-        stop.className = stop.className.replace('hidden','');
+        stop.className = stop.className.replace('hidden', '');
 
         _start();
     };
@@ -28,7 +38,23 @@ function App() {
         _stop();
 
         stop.className += ' hidden';
-        start.className = start.className.replace('hidden','');
+        start.className = start.className.replace('hidden', '');
+    };
+
+    this.sendJson = function () {
+        var query = text.value,
+            queryJson = {
+                "v": "20150512",
+                "query": query,
+                "timezone": "GMT+6",
+                "lang": "en",
+                //"contexts" : ["weather", "local"],
+                "sessionId": sessionId
+            };
+
+        console.log('sendJson', queryJson);
+
+        apiAi.sendJson(queryJson);
     };
 
     this.open = function () {
@@ -41,6 +67,10 @@ function App() {
         apiAi.close();
     };
 
+    this.clean = function () {
+        dialogue.innerHTML = '';
+    };
+
     _init();
 
 
@@ -51,8 +81,8 @@ function App() {
          * You can use configuration object to set properties and handlers.
          */
         var config = {
-            server: 'wss://api.api.ai:4435/api/ws/query',
-            token: 'paste access_token here',// Use Client access token there (see agent keys).
+            server: 'wss://' + SERVER_DOMAIN + ':4435/api/ws/query',
+            token: ACCESS_TOKEN,// Use Client access token there (see agent keys).
             sessionId: sessionId,
             onInit: function () {
                 console.log("> ON INIT use config");
@@ -101,19 +131,28 @@ function App() {
             apiAi.close();
         };
 
+        /**
+         * Reuslt handler
+         */
         apiAi.onResults = function (data) {
             console.log("> ON RESULT", data);
 
-            var status = data.status;
-            var code;
+            var status = data.status,
+                code,
+                speech;
 
             if (!(status && (code = status.code) && isFinite(parseFloat(code)) && code < 300 && code > 199)) {
-                text.innerHTML = JSON.stringify(status);
+                //dialogue.innerHTML = JSON.stringify(status);
                 return;
             }
 
-            text.innerHTML += ('user : ' + data.result.resolvedQuery + '\napi  : ' + data.result.speech + '\n\n');
+            speech = data.result.speech;
+            // Use Text To Speech service to play text.
+            apiAiTts.tts(speech);
+
+            dialogue.innerHTML += ('user : ' + data.result.resolvedQuery + '\napi  : ' + data.result.speech + '\n\n');
             response.innerHTML = JSON.stringify(data, null, 2);
+            text.innerHTML = '';// clean input
         };
 
         apiAi.onError = function (code, data) {
@@ -130,6 +169,11 @@ function App() {
          * You have to invoke init() method explicitly to decide when ask permission to use microphone.
          */
         apiAi.init();
+
+        /**
+         * Initialise Text To Speech service for playing text.
+         */
+        apiAiTts = new TTS(SERVER_DOMAIN, ACCESS_TOKEN);
 
     }
 
